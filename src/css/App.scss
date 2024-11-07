@@ -1,0 +1,307 @@
+@import "./helpers/variables";
+@import "./helpers/mixins";
+@import "./helpers/extends";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  @include font(400);
+}
+
+.serif__font {
+  font-family: $font-family-serif;
+}
+
+.sans__serif__font {
+  font-family: $font-family-sans-serif;
+}
+
+.monospace__font {
+  font-family: $font-family-monospace;
+}
+
+body {
+  @extend %flexColumn;
+  font-family: var(--font-family);
+  .main {
+    min-width: 700px;
+    max-width: 700px;
+    .main__top {
+      @extend %flexRow;
+      padding: 2rem 0.5rem;
+
+      .top__right {
+        @extend %flexRow;
+        gap: 1rem;
+        .right__menu {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          position: relative;
+          .menu__items {
+            top: 100%;
+            left: 0;
+            margin-top: 1rem;
+            position: absolute;
+            list-style-type: none;
+            line-height: 2rem;
+            background-color: #fff;
+            z-index: 1000;
+            padding: 1rem;
+            border-radius: 10px;
+            .items__item {
+              cursor: pointer;
+            }
+            .items__item:hover {
+              color: hsl(274, 82%, 60%);
+            }
+          }
+          .font__icon {
+            cursor: pointer;
+          }
+        }
+        .right__right {
+          display: flex;
+          align-items: center;
+          .right__toggle {
+            display: inline-block;
+            margin: 20px;
+            .toggle__switch {
+              position: relative;
+              display: inline-block;
+              width: 49.13px;
+              height: 24.57px;
+              .switch__slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: hsl(0, 0%, 51%);
+                transition: 0.4s;
+                border-radius: 24.57px;
+              }
+              .switch__slider::before {
+                position: absolute;
+                content: "";
+                height: 19.65px;
+                width: 19.65px;
+                left: 2.45px;
+                bottom: 2.45px;
+                background-color: white;
+                transition: 0.4s;
+                border-radius: 50%;
+              }
+              input:checked + .switch__slider::before {
+                transform: translateX(24.57px);
+              }
+              .switch__slider.round {
+                border-radius: 20px;
+              }
+              .switch__slider.round:before {
+                border-radius: 50%;
+              }
+            }
+            .toggle__switch input {
+              opacity: 0;
+              width: 0;
+              height: 0;
+            }
+          }
+          .right__separator {
+            border-left: 1px solid #d9d9d9;
+            height: 34px;
+            margin: 0 10px;
+          }
+        }
+      }
+    }
+    .main__search {
+      width: 100%;
+      .search__form {
+        width: 100%;
+        .form__container {
+          width: 100%;
+          position: relative;
+          .container__input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 15px;
+            border: none;
+            font-size: 18px;
+            background-color: hsl(0, 0%, 96%);
+          }
+          .container__input:focus, .container__input:focus-within {
+            border: none;
+            background-color: hsl(0, 0%, 96%);
+            outline: none;
+          }
+          .container__button {
+            border: none;
+            position: absolute;
+            right: 1rem;
+            bottom: 0.9rem;
+            cursor: pointer;
+            background-color: hsl(0, 0%, 96%);
+          }
+        }
+      }
+      .search__content {
+        padding: 0.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        @extend %flexRow;
+        .content__top {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          .top__title {
+            @include font(600, 60px);
+          }
+          .top__subtitle {
+            @include font(500, 25px);
+            color: hsl(274, 82%, 60%);
+          }
+        }
+        .player__button {
+          background-color: white;
+          border: none;
+        }
+      }
+      .search__meanings {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        .meanings__container {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          .container__type {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            .type__category {
+              @include font(600, 23px);
+            }
+            .type__line {
+              border: 1px solid hsl(0, 0%, 91%);
+              transform: 90;
+              width: 100%;
+            }
+          }
+          .container__title {
+            color: hsl(0, 0%, 51%);
+            @include font(300, 20px);
+          }
+          .container__list {
+            list-style-type: none;
+            margin-left: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+          }
+          .container__list .list__item {
+            position: relative;
+            line-height: 1.5;
+          }
+          .container__list .list__item::before {
+            content: "•";
+            color: hsl(274, 82%, 60%);
+            font-size: 1.5;
+            margin-right: 1rem;
+            position: absolute;
+            left: -1.5em;
+          }
+          .container__synonyms {
+            display: flex;
+            gap: 1rem;
+            .synonyms__title {
+              color: hsl(0, 0%, 51%);
+            }
+            .synonyms__content {
+              display: flex;
+              gap: 1rem; // por qué no funciona este gap?? 
+              .content__item {
+                color: hsl(274, 82%, 60%);
+                @include font(600, 18px);
+              }
+            }
+          }
+        }
+      }
+  
+    }
+  }
+}
+
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */

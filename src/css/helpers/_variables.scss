@@ -1,0 +1,41 @@
+// Definir variables para modo claro
+$primary-color-light: #fff;
+$secondary-color-light: #f0f0f0;
+$text-color-light: #000;
+
+// Definir variables para modo oscuro
+$primary-color-dark: #000;
+$secondary-color-dark: #333;
+$text-color-dark: #fff;
+
+// Variables que se ajustan automáticamente
+$primary-color: $primary-color-light;
+$secondary-color: $secondary-color-light;
+$text-color: $text-color-light;
+
+@media (prefers-color-scheme: dark) {
+    $primary-color: $primary-color-dark;
+    $secondary-color: $secondary-color-dark;
+    $text-color: $text-color-dark;
+}
+
+// fuentes
+$font-family-serif: "Lora", Times, serif;
+$font-family-sans-serif: "Inter", sans-serif;
+$font-family-monospace: "Inconsolata", monospace;
+
+:root {
+    --font-family: #{$font-family-serif}; // Fuente por defecto: Serif
+}
+
+.serif__font {
+    font-family: $font-family-serif;
+}
+
+.sans-serif-font {
+    font-family: $font-family-sans-serif;
+}
+
+.monospace-font {
+    font-family: $font-family-monospace;
+}
