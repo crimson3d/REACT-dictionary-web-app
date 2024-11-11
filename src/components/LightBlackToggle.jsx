@@ -16,11 +16,13 @@ const LightBlackToggle = () => {
       root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
       root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
       root.style.setProperty('--text-color', 'var(--text-color-dark)');
+      root.style.setProperty('--input-background', 'var(--input-background-dark)');
     } else {
       setSystemDarkMode(false);
       root.style.setProperty('--primary-color', 'var(--primary-color-light)');
       root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
       root.style.setProperty('--text-color', 'var(--text-color-light)');
+      root.style.setProperty('--input-background', 'var(--input-background-light)');
     }
 
     const mediaQueryListener = (e) => {
@@ -30,11 +32,13 @@ const LightBlackToggle = () => {
         root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
         root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
         root.style.setProperty('--text-color', 'var(--text-color-dark)');
+        root.style.setProperty('--input-background', 'var(--input-background-dark)');
       } else {
         setToggle(false);
         root.style.setProperty('--primary-color', 'var(--primary-color-light)');
         root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
         root.style.setProperty('--text-color', 'var(--text-color-light)');
+        root.style.setProperty('--input-background', 'var(--input-background-light)');
       }
     };
 
@@ -55,10 +59,12 @@ const LightBlackToggle = () => {
       root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
       root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
       root.style.setProperty('--text-color', 'var(--text-color-dark)');
+      root.style.setProperty('--input-background', 'var(--input-background-dark)');
     } else {
       root.style.setProperty('--primary-color', 'var(--primary-color-light)');
       root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
       root.style.setProperty('--text-color', 'var(--text-color-light)');
+      root.style.setProperty('--input-background', 'var(--input-background-light)');
     }
   }, [isToggle]);
 

@@ -2,26 +2,31 @@
 $primary-color-light: #fff;
 $secondary-color-light: #f0f0f0;
 $text-color-light: #000;
+$input-background-light: hsl(0, 0%, 96%);
 
 // Variables para modo oscuro
 $primary-color-dark: #000;
 $secondary-color-dark: hsl(274, 82%, 60%);
 $text-color-dark: #fff;
+$input-background-dark: hsl(0, 0%, 10%);
 
 // Variables de CSS personalizadas
 :root {
   --primary-color-light: #{$primary-color-light};
   --secondary-color-light: #{$secondary-color-light};
   --text-color-light: #{$text-color-light};
+  --input-background-light: #{$input-background-light};
 
   --primary-color-dark: #{$primary-color-dark};
   --secondary-color-dark: #{$secondary-color-dark};
   --text-color-dark: #{$text-color-dark};
+  --input-background-dark: #{$input-background-dark};
 
   // Variables por defecto
   --primary-color: var(--primary-color-light);
   --secondary-color: var(--secondary-color-light);
   --text-color: var(--text-color-light);
+  --input-background: var(--input-background-light);
 }
 
 // Aplicar las variables en modo oscuro automáticamente si el sistema está en modo oscuro
@@ -30,6 +35,7 @@ $text-color-dark: #fff;
     --primary-color: var(--primary-color-dark);
     --secondary-color: var(--secondary-color-dark);
     --text-color: var(--text-color-dark);
+    --input-background: var(--input-background-dark);
   }
 }
 

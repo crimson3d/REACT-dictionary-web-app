@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import SearchIcon from "@/assets/icon-search.svg?react";
 import PlayIcon from "@/assets/icon-play.svg?react";
+import NewWindow from "@/assets/icon-new-window.svg?react";
 
 const UserInput = () => {
   const { register, handleSubmit } = useForm();
@@ -130,6 +131,7 @@ const UserInput = () => {
                 <a href={source} className="files__url" target="_blank" rel="noopener noreferrer">
                     {source}
                 </a>
+                <NewWindow className="files__icon" />
             </div>
         </div>
       )}
