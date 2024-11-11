@@ -51,6 +51,7 @@ const UserInput = () => {
             type="text"
             {...register("word", { required: true })}
             className="container__input"
+            placeholder="Search for any word..."
           />
           <button type="submit" className="container__button">
             <SearchIcon className="button__icon" />
@@ -92,6 +93,9 @@ const UserInput = () => {
                   {meaning.definitions.map((def, dIndex) => (
                     <li key={dIndex} className="list__item">
                       {def.definition}
+                      {def.example && (
+                        <span className="item__example">"{def.example}"</span>
+                      )}
                     </li>
                   ))}{" "}
                 </ul>
@@ -99,9 +103,9 @@ const UserInput = () => {
                   <div className="container__synonyms">
                     <h5 className="synonyms__title">Synonyms</h5>
                     <div className="synonyms__content">
-                        <p className="content__item">
+                      <p className="content__item">
                         {meaning.synonyms.join(" ")}
-                        </p>
+                      </p>
                     </div>
                   </div>
                 )}
@@ -118,7 +122,17 @@ const UserInput = () => {
         )}
       </div>
 
-      {source && <p className="search__source">{source}</p>}
+      {source && (
+        <div className="search__source">
+          <hr className="source__line" />
+            <div className="source__files">
+                <h6 className="files__title">Source</h6>
+                <a href={source} className="files__url" target="_blank" rel="noopener noreferrer">
+                    {source}
+                </a>
+            </div>
+        </div>
+      )}
     </div>
   );
 };

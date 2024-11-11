@@ -1,23 +1,39 @@
-// Definir variables para modo claro
+// Variables para modo claro
 $primary-color-light: #fff;
 $secondary-color-light: #f0f0f0;
 $text-color-light: #000;
 
-// Definir variables para modo oscuro
+// Variables para modo oscuro
 $primary-color-dark: #000;
-$secondary-color-dark: #333;
+$secondary-color-dark: hsl(274, 82%, 60%);
 $text-color-dark: #fff;
 
-// Variables que se ajustan automáticamente
-$primary-color: $primary-color-light;
-$secondary-color: $secondary-color-light;
-$text-color: $text-color-light;
+// Variables de CSS personalizadas
+:root {
+  --primary-color-light: #{$primary-color-light};
+  --secondary-color-light: #{$secondary-color-light};
+  --text-color-light: #{$text-color-light};
 
-@media (prefers-color-scheme: dark) {
-    $primary-color: $primary-color-dark;
-    $secondary-color: $secondary-color-dark;
-    $text-color: $text-color-dark;
+  --primary-color-dark: #{$primary-color-dark};
+  --secondary-color-dark: #{$secondary-color-dark};
+  --text-color-dark: #{$text-color-dark};
+
+  // Variables por defecto
+  --primary-color: var(--primary-color-light);
+  --secondary-color: var(--secondary-color-light);
+  --text-color: var(--text-color-light);
 }
+
+// Aplicar las variables en modo oscuro automáticamente si el sistema está en modo oscuro
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: var(--primary-color-dark);
+    --secondary-color: var(--secondary-color-dark);
+    --text-color: var(--text-color-dark);
+  }
+}
+
+
 
 // fuentes
 $font-family-serif: "Lora", Times, serif;
