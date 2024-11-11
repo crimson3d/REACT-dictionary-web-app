@@ -12,6 +12,7 @@ const UserInput = () => {
   const [audio, setAudio] = useState("");
   const [source, setSource] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [error, setError] = useState("");
   const audioRef = useRef(null);
 
   const onSubmit = async (data) => {
@@ -26,13 +27,22 @@ const UserInput = () => {
         setPhonetic(wordsInfo[0].phonetic);
         setAudio(wordsInfo[0].phonetics[0]?.audio || "");
         setSource(wordsInfo[0].sourceUrls);
+        setError("");
       } else {
-        setResults([{ word: data.word, definition: "No definition found." }]);
+        setResults([]);
+        setWord("");
+        setPhonetic("");
+        setAudio("");
+        setSource("");
+        setError("Sorry pal, we couldn't find definitions for the word you were looking for.");
       }
     } catch (error) {
-      setResults([
-        { word: data.word, definition: "Error fetching the definition." },
-      ]);
+      setResults([]);
+      setWord("");
+      setPhonetic("");
+      setAudio("");
+      setSource("");
+      setError("Error fetching the definition.");
     }
   };
 
@@ -51,7 +61,7 @@ const UserInput = () => {
           <input
             type="text"
             {...register("word", { required: true })}
-            className="container__input"
+            className={`container__input ${error ? 'container__error' : ''}`}
             placeholder="Search for any word..."
           />
           <button type="submit" className="container__button">
@@ -59,6 +69,8 @@ const UserInput = () => {
           </button>
         </div>
       </form>
+
+      {error && <p className="search__error">{error}</p>}
 
       <div className="search__content">
         <div className="content__top">
@@ -90,7 +102,6 @@ const UserInput = () => {
                 </div>
                 <h5 className="container__title">Meaning</h5>
                 <ul className="container__list">
-                  {" "}
                   {meaning.definitions.map((def, dIndex) => (
                     <li key={dIndex} className="list__item">
                       {def.definition}
@@ -98,24 +109,20 @@ const UserInput = () => {
                         <span className="item__example">"{def.example}"</span>
                       )}
                     </li>
-                  ))}{" "}
+                  ))}
                 </ul>
                 {meaning.synonyms?.length > 0 && (
                   <div className="container__synonyms">
                     <h5 className="synonyms__title">Synonyms</h5>
                     <div className="synonyms__content">
-                      <p className="content__item">
-                        {meaning.synonyms.join(" ")}
-                      </p>
+                      <p className="content__item">{meaning.synonyms.join(" ")}</p>
                     </div>
                   </div>
                 )}
                 {meaning.antonyms?.length > 0 && (
                   <div className="container__antonyms">
                     <h5 className="antonyms__title">Antonyms</h5>
-                    <p className="antonyms__item">
-                      {meaning.antonyms.join(" ")}
-                    </p>
+                    <p className="antonyms__item">{meaning.antonyms.join(" ")}</p>
                   </div>
                 )}
               </div>
@@ -126,13 +133,13 @@ const UserInput = () => {
       {source && (
         <div className="search__source">
           <hr className="source__line" />
-            <div className="source__files">
-                <h6 className="files__title">Source</h6>
-                <a href={source} className="files__url" target="_blank" rel="noopener noreferrer">
-                    {source}
-                </a>
-                <NewWindow className="files__icon" />
-            </div>
+          <div className="source__files">
+            <h6 className="files__title">Source</h6>
+            <a href={source} className="files__url" target="_blank" rel="noopener noreferrer">
+              {source}
+            </a>
+            <NewWindow className="files__icon" />
+          </div>
         </div>
       )}
     </div>

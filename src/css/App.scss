@@ -143,15 +143,18 @@ body {
             background-color: var(--input-background);
             color: hsl(0, 0%, 51%);
           }
+          .container__error {
+            border: 1px solid hsl(0, 100%, 66%);
+          }
           .container__input::placeholder {
             font-family: var(--font-family);
 
           }
-          .container__input:focus,
-          .container__input:focus-within {
-            border: none;
-            outline: none;
-          }
+          // .container__input:focus,
+          // .container__input:focus-within {
+          //   border: none;
+          //   outline: none;
+          // }
           .container__button {
             border: none;
             position: absolute;
@@ -161,6 +164,10 @@ body {
             background-color: var(--input-background);
           }
         }
+      }
+      .search__error {
+        color: hsl(0, 100%, 66%);
+        margin-top: 1rem;
       }
       .search__content {
         padding: 0.5rem;
