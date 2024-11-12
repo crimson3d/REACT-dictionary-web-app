@@ -5,17 +5,19 @@ import PlayIcon from "@/assets/icon-play.svg?react";
 import NewWindow from "@/assets/icon-new-window.svg?react";
 
 const UserInput = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [results, setResults] = useState([]);
-  const [word, setWord] = useState("");
-  const [phonetic, setPhonetic] = useState("");
-  const [audio, setAudio] = useState("");
-  const [source, setSource] = useState("");
-  const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState("");
   const audioRef = useRef(null);
 
   const onSubmit = async (data) => {
+    setError(""); // Limpiar errores anteriores
+
+    if (!data.word) {
+      setError("Please enter a word.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${data.word}`
@@ -23,33 +25,21 @@ const UserInput = () => {
       const wordsInfo = await response.json();
       if (wordsInfo && wordsInfo.length > 0) {
         setResults(wordsInfo);
-        setWord(wordsInfo[0].word);
-        setPhonetic(wordsInfo[0].phonetic);
-        setAudio(wordsInfo[0].phonetics[0]?.audio || "");
-        setSource(wordsInfo[0].sourceUrls);
         setError("");
       } else {
         setResults([]);
-        setWord("");
-        setPhonetic("");
-        setAudio("");
-        setSource("");
         setError("Sorry pal, we couldn't find definitions for the word you were looking for.");
       }
     } catch (error) {
       setResults([]);
-      setWord("");
-      setPhonetic("");
-      setAudio("");
-      setSource("");
       setError("Error fetching the definition.");
     }
   };
 
-  const handlePlay = () => {
+  const handlePlay = (audioUrl) => {
     if (audioRef.current) {
+      audioRef.current.src = audioUrl;
       audioRef.current.play();
-      setIsPlaying(true);
       audioRef.current.addEventListener("ended", () => setIsPlaying(false));
     }
   };
@@ -60,7 +50,7 @@ const UserInput = () => {
         <div className="form__container">
           <input
             type="text"
-            {...register("word", { required: true })}
+            {...register("word", { required: "Please enter a word." })}
             className={`container__input ${error ? 'container__error' : ''}`}
             placeholder="Search for any word..."
           />
@@ -68,28 +58,32 @@ const UserInput = () => {
             <SearchIcon className="button__icon" />
           </button>
         </div>
+        {errors.word && <p className="search__error">{errors.word.message}</p>}
       </form>
 
       {error && <p className="search__error">{error}</p>}
 
       <div className="search__content">
-        <div className="content__top">
-          {word && <h2 className="top__title">{word}</h2>}
-          {phonetic && <h3 className="top__subtitle">{phonetic}</h3>}
-        </div>
-        <div className="content__media">
-          {audio && (
-            <div className="media__player">
-              <audio ref={audioRef} src={audio}></audio>
-              {!isPlaying && (
-                <button className="player__button" onClick={handlePlay}>
-                  <PlayIcon height={80} width={80} />
-                </button>
+        {results.length > 0 && (
+          <>
+            <div className="content__top">
+              {results[0].word && <h2 className="top__title">{results[0].word}</h2>}
+              {results[0].phonetic && <h3 className="top__subtitle">{results[0].phonetic}</h3>}
+            </div>
+            <div className="content__media">
+              {results[0].phonetics[0]?.audio && (
+                <div className="media__player">
+                  <audio ref={audioRef}></audio>
+                  <button className="player__button" onClick={() => handlePlay(results[0].phonetics[0].audio)}>
+                    <PlayIcon height={80} width={80} />
+                  </button>
+                </div>
               )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
+
       <div className="search__meanings">
         {results.map(
           (entry, index) =>
@@ -130,13 +124,13 @@ const UserInput = () => {
         )}
       </div>
 
-      {source && (
+      {results[0]?.sourceUrls && (
         <div className="search__source">
           <hr className="source__line" />
           <div className="source__files">
             <h6 className="files__title">Source</h6>
-            <a href={source} className="files__url" target="_blank" rel="noopener noreferrer">
-              {source}
+            <a href={results[0].sourceUrls[0]} className="files__url" target="_blank" rel="noopener noreferrer">
+              {results[0].sourceUrls[0]}
             </a>
             <NewWindow className="files__icon" />
           </div>
