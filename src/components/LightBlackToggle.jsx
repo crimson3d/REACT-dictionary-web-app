@@ -3,38 +3,24 @@ import IconMoon from "@/assets/icon-moon.svg?react";
 import IconMoonPurple from "@/assets/icon-moon-purple.svg?react";
 
 const LightBlackToggle = () => {
-  const [isToggle, setToggle] = useState(false);
+  const [isToggle, setToggle] = useState(() => {
+    // Recuperar el estado del modo desde localStorage
+    const savedMode = localStorage.getItem("isDarkMode");
+    return savedMode === null ? false : JSON.parse(savedMode);
+  });
   const [isSystemDarkMode, setSystemDarkMode] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
     const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (systemPrefersDark) {
-      setToggle(true);
-      setSystemDarkMode(true);
-      root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
-      root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
-      root.style.setProperty('--text-color', 'var(--text-color-dark)');
-      root.style.setProperty('--input-background', 'var(--input-background-dark)');
-    } else {
-      setSystemDarkMode(false);
-      root.style.setProperty('--primary-color', 'var(--primary-color-light)');
-      root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
-      root.style.setProperty('--text-color', 'var(--text-color-light)');
-      root.style.setProperty('--input-background', 'var(--input-background-light)');
-    }
-
-    const mediaQueryListener = (e) => {
-      setSystemDarkMode(e.matches);
-      if (e.matches) {
-        setToggle(true);
+    const applyTheme = (isDark) => {
+      if (isDark) {
         root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
         root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
         root.style.setProperty('--text-color', 'var(--text-color-dark)');
         root.style.setProperty('--input-background', 'var(--input-background-dark)');
       } else {
-        setToggle(false);
         root.style.setProperty('--primary-color', 'var(--primary-color-light)');
         root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
         root.style.setProperty('--text-color', 'var(--text-color-light)');
@@ -42,30 +28,52 @@ const LightBlackToggle = () => {
       }
     };
 
+    applyTheme(isToggle); // Aplicar el tema basado en el estado guardado
+
+    if (systemPrefersDark) {
+      setSystemDarkMode(true);
+      applyTheme(true);
+    } else {
+      setSystemDarkMode(false);
+      applyTheme(false);
+    }
+
+    const mediaQueryListener = (e) => {
+      setSystemDarkMode(e.matches);
+      applyTheme(e.matches);
+    };
+
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', mediaQueryListener);
 
     return () => {
       window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', mediaQueryListener);
     };
-  }, []);
+  }, [isToggle]);
 
   const handleToggle = () => {
-    setToggle(prevToggle => !prevToggle);
+    const newToggleState = !isToggle;
+    setToggle(newToggleState);
+    // Guardar el estado en localStorage
+    localStorage.setItem("isDarkMode", JSON.stringify(newToggleState));
   };
 
   useEffect(() => {
     const root = document.documentElement;
-    if (isToggle) {
-      root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
-      root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
-      root.style.setProperty('--text-color', 'var(--text-color-dark)');
-      root.style.setProperty('--input-background', 'var(--input-background-dark)');
-    } else {
-      root.style.setProperty('--primary-color', 'var(--primary-color-light)');
-      root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
-      root.style.setProperty('--text-color', 'var(--text-color-light)');
-      root.style.setProperty('--input-background', 'var(--input-background-light)');
-    }
+    const applyTheme = (isDark) => {
+      if (isDark) {
+        root.style.setProperty('--primary-color', 'var(--primary-color-dark)');
+        root.style.setProperty('--secondary-color', 'var(--secondary-color-dark)');
+        root.style.setProperty('--text-color', 'var(--text-color-dark)');
+        root.style.setProperty('--input-background', 'var(--input-background-dark)');
+      } else {
+        root.style.setProperty('--primary-color', 'var(--primary-color-light)');
+        root.style.setProperty('--secondary-color', 'var(--secondary-color-light)');
+        root.style.setProperty('--text-color', 'var(--text-color-light)');
+        root.style.setProperty('--input-background', 'var(--input-background-light)');
+      }
+    };
+
+    applyTheme(isToggle); // Aplicar el tema basado en el estado actual
   }, [isToggle]);
 
   return (
