@@ -134,6 +134,7 @@ const UserInput = () => {
             </a>
             <NewWindow className="files__icon" />
           </div>
+          <p className='signature'>Coded with ❤️‍🔥 and listening to doom metal, by José Antonio Sánchez Fuentes.</p>
         </div>
       )}
     </div>

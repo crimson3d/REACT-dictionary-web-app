@@ -7,6 +7,7 @@ function App() {
     <div className='main'>
       <Header />
       <UserInput />
+
     </div>
   )
 }
